@@ -17,12 +17,338 @@
 
 *线性表的定义*
 ~~~cpp
-
+struct Sqlist {
+	int* data;
+	int last;
+};
 ~~~
 
 *线性表的初始化*
 ~~~cpp
-
-
-
+void InitList(Sqlist L) {
+	L.data = new int[KMaxSize];
+	L.last = -1;
+}
 ~~~
+*线性表的查找*
+~~~cpp
+nt Locate(Sqlist L, int e) {
+	for (int i = 0; i <= L.last; i++) {
+		if (L.data[i] == e) {
+			return i;
+		}
+	}
+	return -1;
+}
+~~~
+*线性表的插入*
+~~~cpp
+bool Insert(Sqlist L, int i, int e) {
+	if (i<1 || i>L.last + 2) {
+		return false;
+	}
+	if (L.last + 1 > KMaxSize) {
+		return false;
+	}
+	for (int j = L.last; j >= i - 1; j--) {
+		L.data[j + 1] = L.data[j];
+	}
+	L.data[i - 1] = e;
+	L.last++;
+	return true;
+}
+~~~
+*线性表的删除*
+~~~cpp
+bool Delete(Sqlist L, int i) {
+	if (i<1 || i>L.last + 1) {
+		return false;
+		}
+	for (int j = i; j < L.last; j++) {
+		L.data[j - 1] = L.data[j];
+	}
+	L.last--;
+	return true;
+}
+~~~
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
