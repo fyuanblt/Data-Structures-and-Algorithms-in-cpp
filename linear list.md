@@ -71,8 +71,32 @@ bool Delete(Sqlist L, int i) {
 	return true;
 }
 ~~~
-
-
+*线性表的取值*
+~~~cpp
+bool Getdata(const Sqlist& L, int i, int& e) {
+	if (i<1 || i>L.last + 1) {
+		return false;
+	}
+	e = L.data[i - 1];
+	return true;
+}
+~~~
+*线性表的清空*
+~~~cpp
+void Clear(Sqlist &L) {
+	L.last = -1;
+}
+~~~
+*线性表的销毁*
+~~~cpp
+void Destroy(Sqlist &L) {
+	if (L.data != nullptr) {
+		delete[]L.data;
+		L.data = nullptr;
+	}
+	L.last = -1;
+}
+~~~
 
 
 
