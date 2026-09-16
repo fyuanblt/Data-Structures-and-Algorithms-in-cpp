@@ -1,2 +1,2 @@
 # Data-Structures-and-Algorithms-in-cpp
-基于高等教育出版社的《数据结构》编写的代码
+基于高等教育出版社的《数据结构》编写的代码，参考了b站网友取个好记的名字的markdown格式与内容
