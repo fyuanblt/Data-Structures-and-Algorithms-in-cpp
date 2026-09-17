@@ -100,6 +100,138 @@ void Destroy(Sqlist &L) {
 
 
 
+<span id="p2">**==单向链表==**</span>
+
+*链表的定义与初始化*
+
+~~~cpp
+struct ListNode {
+	int data;
+	ListNode* next;
+ListNode(int val): data(val), next(nullptr) {}
+};
+class LinkedList {
+private:ListNode* head;
+
+public: LinkedList() {
+	head = nullptr;
+}
+	  ~LinkedList() {
+		  ListNode* p = head;
+		  while (p != nullptr) {
+			  ListNode* temp = p;
+			  p = p->next;
+			  delete temp;
+		  }// 析构函数：释放内存，防止内存泄漏
+	  }//计算表长
+	  int getLength() {
+		  int counter = 0;        // 计数器
+		  ListNode* p = head;     // 移动指针 p，初始化指向头指针
+
+		  while (p != nullptr) {  // 当 p 不为空时
+			  counter++;          // 计数器加 1
+			  p = p->next;        // p 逐步往后移
+		  }
+		  return counter;         // 返回表长
+	  }//按位查找
+	  int getElem(int i) {
+		  if (i < 1 || head == nullptr) {
+			  return -1;
+		  }
+		  ListNode* p = head;
+		  int counter = 1;
+		  while (p != nullptr && counter < i) {
+			  p = p->next;
+			  counter++;
+		  }
+		  if (p != nullptr) {
+			  return p->data;
+		  }
+		  else {
+			  return -1; // 不存在第 i 个元素
+		  }
+
+	  }//按值查找
+	  ListNode* locateElem(int x) {
+		  ListNode* p = head;
+
+		  // 遍历查找
+		  while (p != nullptr && p->data != x) {
+			  p = p->next;
+		  }
+		  return p;
+	  }//插入
+	  bool insert(int i, int x) {
+		  // 1. 插入位置不合法
+		  if (i < 1) {
+			  return false;
+		  }
+
+		  // 2. 插入第 1 个结点（特殊情况：在头部插入）
+		  if (i == 1) {
+			  ListNode* newNode = new ListNode(x);
+			  newNode->next = head; // 新节点的 next 指向原 head
+			  head = newNode;       // head 更新为新节点
+			  return true;
+		  }
+
+		  // 3. 查找第 i-1 个结点并插入其后 (i > 1 的情况)
+		  ListNode* p = head;
+		  int counter = 1;
+
+		  // 教材逻辑：寻找第 i-1 个节点
+		  while (p != nullptr && counter < (i - 1)) {
+			  p = p->next;
+			  counter++;
+		  }
+
+		  // 如果 p 指向第 i-1 个结点
+		  if (p != nullptr) {
+			  ListNode* newNode = new ListNode(x);
+			  newNode->next = p->next; // 新节点的 next 指向原第 i 个节点
+			  p->next = newNode;       // 第 i-1 个节点的 next 指向新节点
+			  return true;
+		  }
+		  else {
+			  return false;
+		  }
+	  }//删除
+	  bool remove(int i) {
+		  // 1. 删除位置不合法
+		  if (i < 1) {
+			  return false;
+		  }
+
+		  ListNode* p = head;
+
+		  // 2. 删除第 1 个结点（特殊情况）
+		  if (p != nullptr && i == 1) {
+			  head = p->next; // head 指向第二个节点
+			  delete p;       // 释放原头节点
+			  return true;
+		  }
+
+		  // 3. 查找第 i-1 个结点 (i > 1 的情况)
+		  int counter = 1;
+		  while (p != nullptr && counter < (i - 1)) {
+			  p = p->next;
+			  counter++;
+		  }
+
+		  // 4. 执行删除操作
+		  // 如果 p 指向第 i-1 个结点，且待删除结点存在 (p->next != nullptr)
+		  if (p != nullptr && p->next != nullptr) {
+			  ListNode* deleted_node = p->next; // 待删除节点
+			  p->next = deleted_node->next;     // 跨过待删除节点
+			  delete deleted_node;              // 释放内存
+			  return true;
+		  }
+		  else {
+			  return false;
+		  }
+	  }
+};
+~~~
 
 
 
