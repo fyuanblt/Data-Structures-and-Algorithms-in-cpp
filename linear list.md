@@ -232,10 +232,61 @@ public: LinkedList() {
 	  }
 };
 ~~~
+<span id="p4">**双向链表**</span>
+
+*双向链表的定义*
 
 
+~~~cpp
+// 1. 定义双向链表结点结构
+struct DNode {
+    int data;           // 数据域
+    DNode* prior;       // 前驱指针 (指向前一个结点)
+    DNode* next;        // 后继指针 (指向后一个结点)
+};
 
+// 2. 类型别名，方便使用
+typedef DNode* DLinkList;
 
+// 3. 初始化带头结点的空双向链表
+bool InitDLinkList(DLinkList &L) {
+    L = new DNode;      // 分配头结点内存
+    if (L == nullptr) return false; // 内存分配失败
+    
+    // 关键：空双向链表的头结点的两个指针初始状态
+    L->prior = nullptr; // 前驱置空
+    L->next = nullptr;  // 后继置空
+    return true;
+}
+<span id="p3">**循环链表**</span>
+
+*循环链表的定义*
+
+~~~cpp
+typedef struct CLnode
+{
+    ElemType data;
+    CLnode *next;
+}*CircList;
+~~~
+
+*循环链表的初始化*
+
+~~~cpp
+void InitList(CircList &L)
+{
+    L = new CLnode;
+    L->next = L;
+}
+~~~
+
+==循环链表的基本操作和单链表基本上相同，唯一不同的是，由于循环链表的最后一个结点的next不再是空指针，而是指向头结点，因此，循环中的结束条件要发生变化==
+
+~~~cpp
+单链表--------------循环链表
+while(p)--------->while(p!=L)
+while(p->next)--->while(p->next!=L)
+~~~
 
 
 
