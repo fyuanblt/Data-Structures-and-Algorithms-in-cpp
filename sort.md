@@ -151,8 +151,58 @@ void mergeSortBottomUp(vector<int>& arr) {
     }
 }
 ~~~
+~~~cpp
+4.2.1归并排序改进（自底向上）
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
+int main() {
+    std::vector<int> arr = {5, 2, 9, 1, 5, 6, 3};
+    int n = arr.size();
 
+    if (n >= 2) {
+        std::vector<int> buf(n);
+        std::vector<int>* src = &arr;
+        std::vector<int>* dst = &buf;
+
+        for (int width = 1; width < n; width *= 2) {
+            for (int lo = 0; lo < n; lo += 2 * width) {
+                int mid = std::min(lo + width - 1, n - 1);
+                int hi  = std::min(lo + 2 * width - 1, n - 1);
+
+                // 合并 src 的两段到 dst（直接从 src 读、dst 写，不拷回）
+                int i = lo, j = mid + 1, k = lo;
+                while (i <= mid && j <= hi) {
+                    if ((*src)[i] <= (*src)[j]) (*dst)[k++] = (*src)[i++];
+                    else                        (*dst)[k++] = (*src)[j++];
+                }
+                while (i <= mid) (*dst)[k++] = (*src)[i++];
+                while (j <= hi)  (*dst)[k++] = (*src)[j++];
+            }
+            std::swap(src, dst);   // ★ 关键：每轮结束交换角色
+        }
+
+        // 最后结果若在 buf，拷回 arr
+        if (src != &arr) {
+            std::copy(src->begin(), src->end(), arr.begin());
+        }
+    }
+
+    for (int x : arr) std::cout << x << " ";
+    std::cout << "\n";
+    return 0;
+}
+~~~
+| # | 排序算法 | 核心思想 | 最好时间 | 平均时间 | 最坏时间 | 空间 | 稳定性 |
+|---|---------|---------|---------|---------|---------|------|--------|
+| 1 | 直接插入排序 | 当前元素插入已排序区 | O(n) | O(n^2) | O(n^2) | O(1) | ✅ 稳定 |
+| 2 | 折半插入排序 | 用二分找插入位置，再后移 | O(n log n) | O(n^2) | O(n^2) | O(1) | ✅ 稳定 |
+| 3 | 希尔排序 | 按 gap 分组插入，gap 递减到 1 | 取决于增量序列 | ~O(n^1.3) | O(n^2) | O(1) | ❌ 不稳定 |
+| 4 | 简单选择排序 | 每趟选最小放前面 | O(n^2) | O(n^2) | O(n^2) | O(1) | ❌ 不稳定 |
+| 5 | 冒泡排序 | 相邻比较，大的往后冒 | O(n) | O(n^2) | O(n^2) | O(1) | ✅ 稳定 |
+| 6 | 快速排序 | 选枢轴分区，递归左右 | O(n log n) | O(n log n) | O(n^2) | O(log n) | ❌ 不稳定 |
+| 7 | 归并排序 | 从中间劈半，递归排序后合并 | O(n log n) | O(n log n) | O(n log n) | O(n) | ✅ 稳定 |
 
 
 
